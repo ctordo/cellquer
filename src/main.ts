@@ -1,17 +1,45 @@
+import { Board } from './board';
+import { Renderer } from './renderer';
+import { Piece } from './pieces';
+import type { Move } from './pieces';
+
 const canvas = document.getElementById('game-canvas') as HTMLCanvasElement;
-const ctx = canvas.getContext('2d')!;
+const board = new Board();
+const renderer = new Renderer(canvas);
 
-// Draw a simple 6x12 grid
-const COLS = 6;
-const ROWS = 12;
-const CELL_SIZE = 60;
+let selectedPiece: Piece | null = null;
+let legalMoves: Move[] = [];
 
-canvas.width = COLS * CELL_SIZE;
-canvas.height = ROWS * CELL_SIZE;
-
-for (let row = 0; row < ROWS; row++) {
-  for (let col = 0; col < COLS; col++) {
-    ctx.fillStyle = (row + col) % 2 === 0 ? '#f0d9b5' : '#b58863';
-    ctx.fillRect(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-  }
+function redraw(): void {
+  renderer.draw(board, selectedPiece, legalMoves);
 }
+
+canvas.addEventListener('click', (event: MouseEvent) => {
+  const rect = canvas.getBoundingClientRect();
+  const col = Math.floor((event.clientX - rect.left) / 60);
+  const row = Math.floor((event.clientY - rect.top)  / 60);
+
+  const clicked = board.grid[row][col];
+
+  if (clicked !== null) {
+    if (clicked === selectedPiece){
+      selectedPiece = null;
+      legalMoves = [];
+    }
+    else{
+      // clicked on a piece — select it
+      selectedPiece = clicked;
+      legalMoves = clicked.getLegalMoves(board.grid);
+    }
+  } else {
+    // clicked on empty square — deselect
+    selectedPiece = null;
+    legalMoves = [];
+  }
+
+  redraw();
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  redraw();
+});
