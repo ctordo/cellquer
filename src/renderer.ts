@@ -1,6 +1,8 @@
-import { Board } from './board.ts'
-import { Piece } from './pieces.ts'
-import type { Move } from './pieces.ts'
+import { Board } from './board'
+import { Piece } from './pieces'
+import { GameState } from './gamestate';
+import type { Move } from './types';
+
 
 const CELL_SIZE = 60;
 const ROWS = 10;
@@ -16,9 +18,10 @@ export class Renderer {
         canvas.height = ROWS * CELL_SIZE;
     }
 
-    draw(board:Board, selected_piece: Piece | null, legal_moves: Move[]):void {
+    draw(gameState: GameState, selected_piece: Piece | null, legal_moves: Move[]):void {
         this.drawBoard(selected_piece, legal_moves);
-        this.drawPieces(board);
+        this.drawPieces(gameState.board);
+        this.drawFrontierLines(gameState)
     }
 
 
@@ -58,6 +61,27 @@ export class Renderer {
                 }
             }
         }
+    }
+
+    private drawFrontierLines(gameState: GameState): void {
+        const whiteFrontier = gameState.getFrontierRow('white');
+        const blackFrontier = gameState.getFrontierRow('black');
+        this.drawDashedLine(whiteFrontier, '#ffffff', 0);
+        this.drawDashedLine(blackFrontier + 1, '#000000', 6);
+    }
+
+    private drawDashedLine(row: number, color: string, offset: number): void {
+        const y = row * CELL_SIZE;
+        this.ctx.beginPath();
+        this.ctx.setLineDash([6, 6]);
+        this.ctx.lineDashOffset = offset;
+        this.ctx.strokeStyle = color;
+        this.ctx.lineWidth = 2;
+        this.ctx.moveTo(0, y);
+        this.ctx.lineTo(this.ctx.canvas.width, y);
+        this.ctx.stroke();
+        this.ctx.setLineDash([]);
+        this.ctx.lineDashOffset = 0;
     }
 
 

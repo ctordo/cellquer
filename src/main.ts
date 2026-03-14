@@ -1,17 +1,17 @@
-import { Board } from './board';
+import { GameState } from './gamestate';
 import { Renderer } from './renderer';
-import { Piece } from './pieces';
-import type { Move } from './pieces';
+import type { Piece } from './pieces';
+import type { Move } from './types';
 
 const canvas = document.getElementById('game-canvas') as HTMLCanvasElement;
-const board = new Board();
+const gameState = new GameState();
 const renderer = new Renderer(canvas);
 
 let selectedPiece: Piece | null = null;
 let legalMoves: Move[] = [];
 
 function redraw(): void {
-  renderer.draw(board, selectedPiece, legalMoves);
+  renderer.draw(gameState, selectedPiece, legalMoves);
 }
 
 canvas.addEventListener('click', (event: MouseEvent) => {
@@ -19,20 +19,17 @@ canvas.addEventListener('click', (event: MouseEvent) => {
   const col = Math.floor((event.clientX - rect.left) / 60);
   const row = Math.floor((event.clientY - rect.top)  / 60);
 
-  const clicked = board.grid[row][col];
+  const clicked = gameState.board.grid[row][col];
 
   if (clicked !== null) {
-    if (clicked === selectedPiece){
+    if (clicked === selectedPiece) {
       selectedPiece = null;
       legalMoves = [];
-    }
-    else{
-      // clicked on a piece — select it
+    } else {
       selectedPiece = clicked;
-      legalMoves = clicked.getLegalMoves(board.grid);
+      legalMoves = clicked.getLegalMoves(gameState);
     }
   } else {
-    // clicked on empty square — deselect
     selectedPiece = null;
     legalMoves = [];
   }

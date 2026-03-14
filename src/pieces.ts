@@ -1,9 +1,5 @@
-export interface Move{
-    init: {row: number, col: number};
-    dest: {row: number, col: number};
-}
-
-export type Color = 'white' | 'black';
+import type { Move, Color } from './types'
+import { GameState } from './gamestate'
 
 export abstract class Piece {
     readonly color: Color;
@@ -17,23 +13,28 @@ export abstract class Piece {
 
     }
 
-    abstract getLegalMoves(board: (Piece | null)[][]): Move[];
+    abstract getLegalMoves(gameState: GameState): Move[];
 
     abstract draw(ctx: CanvasRenderingContext2D, cx: number, cy: number, cellSize: number): void;
 }
 
 export class Pawn extends Piece {
-    getLegalMoves(board: (Piece | null)[][]): Move[]{
+    getLegalMoves(gameState: GameState): Move[]{
         const moves: Move[] = [];
         const vertical_direction = this.color == 'white' ? -1 : 1;
+        const frontier_row = gameState.getFrontierRow(this.color);
     
         for (let steps=1; steps<=2; steps++){
             const target_row = this.row + steps * vertical_direction;
             const target_col = this.col;
 
-            if (target_row < 0 || target_row > board.length) break;
-
-            if (board[target_row][target_col] !== null) break;
+            // cannot go out of boundaries
+            if (target_row < 0 || target_row > gameState.board.grid.length) break;
+            // cannot go on non-empty cell
+            if (gameState.board.grid[target_row][target_col] !== null) break;
+            // cannot go beyond frontier
+            if (this.color === 'white' && target_row < frontier_row) break;
+            if (this.color === 'black' && target_row > frontier_row) break;
 
             moves.push({
                 init: {row:this.row, col:this.col},
@@ -44,7 +45,7 @@ export class Pawn extends Piece {
     }
 
     draw(ctx: CanvasRenderingContext2D, cx: number, cy: number, cellSize: number): void {
-      const size = cellSize * 0.4;
+      const size = cellSize * 0.35;
 
       ctx.beginPath();
       if (this.color === 'white') {
