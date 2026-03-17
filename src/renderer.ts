@@ -8,6 +8,11 @@ const CELL_SIZE = 60;
 const ROWS = 10;
 const COLS = 8;
 
+const PWHITE = "#0066ff";
+const PBLACK = "#ff0000";
+const PWHITE_tr = "#0066ff72";
+const PBLACK_tr = "#ff000072";
+
 export class Renderer {
     
     private ctx: CanvasRenderingContext2D;
@@ -32,8 +37,8 @@ export class Renderer {
                 let parity = (row + col)%2 === 0;
                 let selection = (selected_piece && selected_piece.row === row && selected_piece.col === col);
                 let color = '#ffffff';
-                if (parity) color = !selection ? '#ffeded' : '#fcffa6';
-                else        color = !selection ? '#e1bcbc' : '#e7ea9a';
+                if (parity) color = !selection ? '#e8e8e8' : '#fcffa6';
+                else        color = !selection ? '#b9b9b9' : '#e7ea9a';
 
                 this.ctx.fillStyle = color;
                 this.ctx.fillRect(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE);
@@ -45,7 +50,7 @@ export class Renderer {
             const cy = move.dest.row * CELL_SIZE + CELL_SIZE/2;
             this.ctx.beginPath();
             this.ctx.arc(cx, cy, CELL_SIZE * 0.2, 0, Math.PI * 2);
-            this.ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+            this.ctx.fillStyle = move.color === 'white' ? PWHITE_tr : PBLACK_tr
             this.ctx.fill();
         }
     }
@@ -57,7 +62,7 @@ export class Renderer {
                 if (piece !== null){
                     const cx = col * CELL_SIZE + CELL_SIZE/2;
                     const cy = row * CELL_SIZE + CELL_SIZE/2;
-                    piece.draw(this.ctx, cx, cy, CELL_SIZE)
+                    piece.draw(this.ctx, cx, cy, CELL_SIZE, piece.color === 'white' ? PWHITE : PBLACK);
                 }
             }
         }
@@ -66,8 +71,8 @@ export class Renderer {
     private drawFrontierLines(gameState: GameState): void {
         const whiteFrontier = gameState.getFrontierRow('white');
         const blackFrontier = gameState.getFrontierRow('black');
-        this.drawDashedLine(whiteFrontier, '#ffffff', 0);
-        this.drawDashedLine(blackFrontier + 1, '#000000', 6);
+        this.drawDashedLine(whiteFrontier, PWHITE, 0);
+        this.drawDashedLine(blackFrontier + 1, PBLACK, 6);
     }
 
     private drawDashedLine(row: number, color: string, offset: number): void {

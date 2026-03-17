@@ -7,10 +7,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>cellquer</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background: #f7ffff;
+      }
+      #container {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      #turn-indicator {
+        color: rgb(0, 0, 0);
+        font-family: sans-serif;
+        font-size: 20px;
+      }
+    </style>
+
   </head>
 
   <body>
-    <canvas id="game-canvas"></canvas>
+    <div id="container">
+        <canvas id="game-canvas"></canvas>
+        <div id="turn-indicator">White's turn</div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 
