@@ -7,36 +7,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>cellquer</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-    <style>
-      body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        background: #f7ffff;
-      }
-      #container {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-      }
-      #turn-indicator {
-        color: rgb(0, 0, 0);
-        font-family: sans-serif;
-        font-size: 20px;
-      }
-    </style>
+    <link rel="stylesheet" href="/src/style.css" />
 
   </head>
 
   <body>
-    <div id="container">
+    <header>
+      <h1>cellquer</h1>
+    </header>
+
+    <main>
+      <div class="col-left">
+        <div class="panel">
+          <div class="panel-title">MENU</div>
+          <button class="btn" id="reset-btn">reset board</button>
+        </div>
+        <div class="panel">
+          <div class="panel-title">moves played</div>
+          <div class="move-counter" id="move-counter">0</div>
+          <div class="move-counter-label">total moves</div>
+        </div>
+      </div>
+
+      <div class="col-center">
         <canvas id="game-canvas"></canvas>
-        <div id="turn-indicator">White's turn</div>
-    </div>
-    <script type="module" src="/src/main.ts"></script>
+        <div id="turn-indicator">white's turn</div>
+      </div>
+
+      <div class="col-right">
+        <div class="panel">
+          <div class="panel-title">rules</div>
+          <div class="rules-text">
+            <p>rules.</p>
+          </div>
+        </div>
+      </div>
+    </main>
   </body>
+  <script type="module" src="/src/main.ts"></script>
 
 </html>

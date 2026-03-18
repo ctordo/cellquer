@@ -1,6 +1,6 @@
 import { Piece, Pawn } from './pieces';
 
-const INITIAL_STATE = '......../pppppppp/......../......../......../......../......../......../PPPPPPPP/........';
+const INITIAL_STATE = 'pppppppp/pppppppp/......../......../......../......../......../......../PPPPPPPP/PPPPPPPP';
 
 export class Board {
     readonly rows = 10;

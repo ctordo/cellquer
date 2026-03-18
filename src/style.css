@@ -1,0 +1,140 @@
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+:root {
+  --bg: #ffffff;
+  --surface: #dedede;
+  --border: #2a2a2a;
+  --accent: #000000;
+  --text-primary: #000000;
+  --text-muted: #000000;
+  --font-mono: 'Share Tech Mono', sans-serif;
+  --font-body: 'Rajdhani', sans-serif;
+}
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+/* TOP BAND */
+header {
+  text-align: center;
+  padding: 24px 0 20px;
+  letter-spacing: 0.3em;
+}
+header h1 {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+/* THREE COLUMN LAYOUT */
+main {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 0;
+  padding: 40px 0px;
+  width: 100%;
+  overflow: hidden;
+  min-height: 0;
+}
+/* LEFT COLUMN */
+.col-left {
+  padding: 0 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  overflow: hidden;
+  min-height: 0;
+}
+.panel {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 20px;
+}
+.panel-title {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 16px;
+}
+.btn {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.btn:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+.move-counter {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 4px;
+}
+.move-counter-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-align: center;
+  letter-spacing: 0.15em;
+}
+/* CENTER COLUMN */
+.col-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  overflow: hidden;
+  min-height: 0;
+}
+#game-canvas {
+  display: block;
+}
+#turn-indicator {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  min-width: 200px;
+  text-align: center;
+}
+/* RIGHT COLUMN */
+.col-right {
+  padding: 0 32px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.rules-text {
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--text-muted);
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+.rules-text p + p {
+  margin-top: 12px;
+}

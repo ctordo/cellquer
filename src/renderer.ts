@@ -37,8 +37,8 @@ export class Renderer {
                 let parity = (row + col)%2 === 0;
                 let selection = (selected_piece && selected_piece.row === row && selected_piece.col === col);
                 let color = '#ffffff';
-                if (parity) color = !selection ? '#e8e8e8' : '#fcffa6';
-                else        color = !selection ? '#b9b9b9' : '#e7ea9a';
+                if (parity) color = !selection ? '#dbdbdb' : '#fcffa6';
+                else        color = !selection ? '#b4b4b4' : '#e7ea9a';
 
                 this.ctx.fillStyle = color;
                 this.ctx.fillRect(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE);

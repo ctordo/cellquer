@@ -72,7 +72,7 @@ export class BoardInteractionHandler {
     }
 
     private updateTurnIndicator(): void {
-        this.turnIndicator.textContent = this.gameState.currentTurn === 'white' ? "White's turn" : "Black's turn";
+        this.turnIndicator.textContent = this.gameState.currentTurn === 'white' ? "Blue" : "Red";
     }
     
     intialDraw(): void {
